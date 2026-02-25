@@ -16,6 +16,12 @@ body {
   padding: 3rem 1rem;
 }
 
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 #app {
   width: 100%;
   max-width: 480px;
@@ -97,6 +103,15 @@ h1 {
   background: #dc2626;
 }
 
+#btn-mute {
+  background: #334155;
+  color: #e0e0e0;
+}
+
+#btn-mute:not(:disabled):hover {
+  background: #475569;
+}
+
 .status {
   font-size: 0.9rem;
   padding: 0.5rem 0.75rem;
@@ -154,15 +169,6 @@ h1 {
 
 .meter-fill.agent {
   background: #4ade80;
-}
-
-#btn-mute {
-  background: #334155;
-  color: #e0e0e0;
-}
-
-#btn-mute:not(:disabled):hover {
-  background: #475569;
 }
 
 .log {

@@ -6,40 +6,7 @@
     <title>Vapi Trivia Agent</title>
   </head>
   <body>
-    <div id="app">
-      <h1>Trivia Agent</h1>
-
-      <div class="config">
-        <label for="api-key">Vapi Public Key</label>
-        <input
-          id="api-key"
-          type="password"
-          placeholder="paste your key here"
-          spellcheck="false"
-        />
-      </div>
-
-      <div class="controls">
-        <button id="btn-start">Start</button>
-        <button id="btn-stop" disabled>Stop</button>
-        <button id="btn-mute" disabled>Mute</button>
-      </div>
-
-      <div id="status" class="status">Idle</div>
-
-      <div class="meters">
-        <div class="meter">
-          <span class="meter-label">You</span>
-          <div class="meter-track"><div id="mic-bar" class="meter-fill mic"></div></div>
-        </div>
-        <div class="meter">
-          <span class="meter-label">Agent</span>
-          <div class="meter-track"><div id="volume-bar" class="meter-fill agent"></div></div>
-        </div>
-      </div>
-
-      <ul id="log" class="log"></ul>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
