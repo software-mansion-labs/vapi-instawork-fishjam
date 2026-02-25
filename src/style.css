@@ -36,34 +36,6 @@ h1 {
   letter-spacing: -0.02em;
 }
 
-.config {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.config label {
-  font-size: 0.8rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.config input {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 8px;
-  padding: 0.6rem 0.75rem;
-  color: #e0e0e0;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.config input:focus {
-  border-color: #555;
-}
-
 .controls {
   display: flex;
   gap: 0.5rem;
@@ -85,30 +57,30 @@ h1 {
   cursor: not-allowed;
 }
 
-#btn-start {
+.btn-start {
   background: #22c55e;
   color: #000;
 }
 
-#btn-start:not(:disabled):hover {
+.btn-start:not(:disabled):hover {
   background: #16a34a;
 }
 
-#btn-stop {
+.btn-stop {
   background: #ef4444;
   color: #fff;
 }
 
-#btn-stop:not(:disabled):hover {
+.btn-stop:not(:disabled):hover {
   background: #dc2626;
 }
 
-#btn-mute {
+.btn-mute {
   background: #334155;
   color: #e0e0e0;
 }
 
-#btn-mute:not(:disabled):hover {
+.btn-mute:not(:disabled):hover {
   background: #475569;
 }
 
@@ -169,27 +141,4 @@ h1 {
 
 .meter-fill.agent {
   background: #4ade80;
-}
-
-.log {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  max-height: 320px;
-  overflow-y: auto;
-  font-size: 0.82rem;
-  color: #999;
-  background: #1a1a1a;
-  border-radius: 8px;
-  padding: 0.75rem;
-}
-
-.log li {
-  padding: 0.2rem 0;
-  border-bottom: 1px solid #222;
-}
-
-.log li:last-child {
-  border-bottom: none;
 }
