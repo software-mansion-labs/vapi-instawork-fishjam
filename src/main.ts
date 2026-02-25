@@ -6,11 +6,14 @@ const ASSISTANT_ID = "a890daee-47ba-4472-b843-6904f69b5fed";
 const apiKeyInput = document.getElementById("api-key") as HTMLInputElement;
 const btnStart = document.getElementById("btn-start") as HTMLButtonElement;
 const btnStop = document.getElementById("btn-stop") as HTMLButtonElement;
+const btnMute = document.getElementById("btn-mute") as HTMLButtonElement;
 const statusEl = document.getElementById("status")!;
+const micBar = document.getElementById("mic-bar")!;
 const volumeBar = document.getElementById("volume-bar")!;
 const logEl = document.getElementById("log")!;
 
 let vapi: Vapi | null = null;
+let micCleanup: (() => void) | null = null;
 
 function setStatus(text: string, level: "idle" | "active" | "error" = "idle") {
   statusEl.textContent = text;
@@ -26,8 +29,57 @@ function log(text: string) {
 function setCallActive(active: boolean) {
   btnStart.disabled = active;
   btnStop.disabled = !active;
+  btnMute.disabled = !active;
   apiKeyInput.disabled = active;
-  if (!active) volumeBar.style.width = "0%";
+  if (!active) {
+    volumeBar.style.width = "0%";
+    micBar.style.width = "0%";
+    stopMicMonitor();
+  }
+}
+
+function startMicMonitor() {
+  stopMicMonitor();
+
+  navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .then((stream) => {
+      const ctx = new AudioContext();
+      const src = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      src.connect(analyser);
+
+      const buf = new Uint8Array(analyser.frequencyBinCount);
+      let raf = 0;
+
+      function tick() {
+        analyser.getByteFrequencyData(buf);
+        const avg = buf.reduce((a, b) => a + b, 0) / buf.length;
+        const pct = Math.min(100, Math.round((avg / 128) * 100));
+        micBar.style.width = `${pct}%`;
+        raf = requestAnimationFrame(tick);
+      }
+      tick();
+
+      micCleanup = () => {
+        cancelAnimationFrame(raf);
+        ctx.close();
+        stream.getTracks().forEach((t) => t.stop());
+        micBar.style.width = "0%";
+      };
+
+      log("Mic monitor active");
+    })
+    .catch((err) => {
+      log(`Mic access denied: ${err.message}`);
+      setStatus("Mic blocked — check browser permissions", "error");
+    });
+}
+
+function stopMicMonitor() {
+  micCleanup?.();
+  micCleanup = null;
 }
 
 btnStart.addEventListener("click", async () => {
@@ -44,16 +96,15 @@ btnStart.addEventListener("click", async () => {
     setStatus("Connected — listening", "active");
     log("Call started");
     setCallActive(true);
+    startMicMonitor();
   });
 
   vapi.on("speech-start", () => {
     setStatus("Agent speaking…", "active");
-    log("Agent speaking");
   });
 
   vapi.on("speech-end", () => {
     setStatus("Listening…", "active");
-    log("Agent stopped speaking");
   });
 
   vapi.on("volume-level", (level) => {
@@ -100,4 +151,12 @@ btnStop.addEventListener("click", () => {
   vapi?.stop();
   setStatus("Stopping…", "idle");
   log("Stop requested");
+});
+
+btnMute.addEventListener("click", () => {
+  if (!vapi) return;
+  const muted = vapi.isMuted();
+  vapi.setMuted(!muted);
+  btnMute.textContent = muted ? "Mute" : "Unmute";
+  log(muted ? "Mic unmuted" : "Mic muted");
 });

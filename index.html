@@ -22,12 +22,20 @@
       <div class="controls">
         <button id="btn-start">Start</button>
         <button id="btn-stop" disabled>Stop</button>
+        <button id="btn-mute" disabled>Mute</button>
       </div>
 
       <div id="status" class="status">Idle</div>
 
-      <div class="volume-bar-container">
-        <div id="volume-bar" class="volume-bar"></div>
+      <div class="meters">
+        <div class="meter">
+          <span class="meter-label">You</span>
+          <div class="meter-track"><div id="mic-bar" class="meter-fill mic"></div></div>
+        </div>
+        <div class="meter">
+          <span class="meter-label">Agent</span>
+          <div class="meter-track"><div id="volume-bar" class="meter-fill agent"></div></div>
+        </div>
       </div>
 
       <ul id="log" class="log"></ul>

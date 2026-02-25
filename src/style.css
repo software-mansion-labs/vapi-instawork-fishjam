@@ -113,19 +113,56 @@ h1 {
   color: #f87171;
 }
 
-.volume-bar-container {
-  height: 4px;
+.meters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meter-label {
+  font-size: 0.75rem;
+  color: #666;
+  width: 3rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.meter-track {
+  flex: 1;
+  height: 6px;
   background: #1a1a1a;
-  border-radius: 2px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
-.volume-bar {
+.meter-fill {
   height: 100%;
   width: 0%;
+  border-radius: 3px;
+  transition: width 0.08s ease-out;
+}
+
+.meter-fill.mic {
+  background: #38bdf8;
+}
+
+.meter-fill.agent {
   background: #4ade80;
-  border-radius: 2px;
-  transition: width 0.1s ease-out;
+}
+
+#btn-mute {
+  background: #334155;
+  color: #e0e0e0;
+}
+
+#btn-mute:not(:disabled):hover {
+  background: #475569;
 }
 
 .log {
