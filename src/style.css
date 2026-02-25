@@ -1,0 +1,152 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0f0f0f;
+  color: #e0e0e0;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+#app {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.config {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.config label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.config input {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.config input:focus {
+  border-color: #555;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls button {
+  flex: 1;
+  padding: 0.65rem 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+#btn-start {
+  background: #22c55e;
+  color: #000;
+}
+
+#btn-start:not(:disabled):hover {
+  background: #16a34a;
+}
+
+#btn-stop {
+  background: #ef4444;
+  color: #fff;
+}
+
+#btn-stop:not(:disabled):hover {
+  background: #dc2626;
+}
+
+.status {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: #1a1a1a;
+  text-align: center;
+}
+
+.status[data-level="active"] {
+  color: #4ade80;
+}
+
+.status[data-level="error"] {
+  color: #f87171;
+}
+
+.volume-bar-container {
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.volume-bar {
+  height: 100%;
+  width: 0%;
+  background: #4ade80;
+  border-radius: 2px;
+  transition: width 0.1s ease-out;
+}
+
+.log {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 320px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+  color: #999;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.log li {
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #222;
+}
+
+.log li:last-child {
+  border-bottom: none;
+}
