@@ -1,9 +1,9 @@
-import { FishjamClient, RoomId } from "@fishjam-cloud/js-server-sdk";
+import { FishjamClient, type RoomId } from "@fishjam-cloud/js-server-sdk";
 import { CONFIG } from "../config.ts";
 import { createVapiCall } from "./vapiClient.ts";
 
 class CallService {
-  private activeCalls = new Set<RoomId>;
+  private activeCalls = new Set<RoomId>();
   private fishjam = new FishjamClient({
     fishjamId: CONFIG.VITE_FISHJAM_ID,
     managementToken: CONFIG.FISHJAM_MANAGEMENT_TOKEN,
