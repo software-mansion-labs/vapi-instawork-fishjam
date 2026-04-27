@@ -13,7 +13,7 @@ class CallService {
     const room = await this.fishjam.createRoom();
     const { peerToken } = await this.fishjam.createPeer(room.id);
     const { callId } = await createVapiCall();
-    await this.fishjam.createVAPIAgent(
+    await this.fishjam.createVapiAgent(
       room.id,
       {
         apiKey: CONFIG.VAPI_PRIVATE_API_KEY,
