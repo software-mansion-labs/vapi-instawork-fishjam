@@ -1,29 +1,37 @@
-import { FishjamClient } from "@fishjam-cloud/js-server-sdk";
+import { FishjamClient, type RoomId } from "@fishjam-cloud/js-server-sdk";
 import { CONFIG } from "../config.ts";
 import { createVapiCall } from "./vapiClient.ts";
-import type { ActiveCall } from "../types.ts";
 
 class CallService {
-  private activeCalls = new Map<string, ActiveCall>();
+  private activeCalls = new Set<RoomId>();
   private fishjam = new FishjamClient({
     fishjamId: CONFIG.VITE_FISHJAM_ID,
     managementToken: CONFIG.FISHJAM_MANAGEMENT_TOKEN,
   });
 
-  getCall(roomId: string) {
-    return this.activeCalls.get(roomId);
-  }
-
   async startCall() {
     const room = await this.fishjam.createRoom();
     const { peerToken } = await this.fishjam.createPeer(room.id);
+    const { callId } = await createVapiCall();
+    await this.fishjam.createVapiAgent(
+      room.id,
+      {
+        apiKey: CONFIG.VAPI_PRIVATE_API_KEY,
+        callId: callId
+      }
+    );
 
-    await createVapiCall(room.id);
+    this.activeCalls.add(room.id);
 
-    return { roomId: room.id, peerToken };
+    console.log(`[call] started room=${room.id} vapiCall=${callId}`);
+    return { roomId: room.id, peerToken, vapiCallId: callId };
   }
 
-  stopCall(roomId: string): boolean {
+  stopCall(roomId: RoomId): boolean {
+    if (!this.activeCalls.has(roomId)) return false;
+
+    this.activeCalls.delete(roomId);
+    this.fishjam.deleteRoom(roomId);
     console.log(`[call] stopped room=${roomId}`);
     return true;
   }
